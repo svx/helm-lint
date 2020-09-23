@@ -1,0 +1,6 @@
+repos:
+  - repo: https://gitlab.com/flywheel-io/tools/etc/pre-commit-hooks
+    rev: master
+    hooks:
+      - id: flywheel-lint
+      - id: test-docker
