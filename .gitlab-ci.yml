@@ -2,9 +2,3 @@ include:
   - project: flywheel-io/tools/etc/ci-templates
     file: img.yml
     ref: master
-
-# dockerhub push disabled for the template
-publish:docker:
-  extends: .publish:docker
-  rules:
-    - when: never
