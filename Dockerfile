@@ -1,5 +1,7 @@
-FROM python:3.9.0-alpine3.12 as KUBEVAL_SCHEMA
 ARG KUBERNETES=1.15.7
+
+FROM python:3.9.0-alpine3.12 as KUBEVAL_SCHEMA
+ARG KUBERNETES
 RUN set -eux; \
     pip install openapi2jsonschema==0.9.1; \
     mkdir -p /etc/kubeval; \
@@ -12,7 +14,8 @@ ARG KUBERNETES
 ENV KUBERNETES=$KUBERNETES
 RUN apk add --no-cache \
         bash=5.0.17-r0 \
-        curl=7.69.1-r1
+        curl=7.69.1-r1 \
+        git=2.26.2-r0
 
 ENV PS1='\u@\h:\w\$ '
 SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
@@ -35,4 +38,4 @@ COPY --from=KUBEVAL_SCHEMA /etc/kubeval /etc/kubeval
 
 COPY helm /helm
 WORKDIR /src
-CMD ["/bin/bash"]
+CMD ["/helm/run.sh"]
