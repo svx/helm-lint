@@ -13,22 +13,27 @@ Files matching test*.yaml and test*/*.yaml will be used as values files.
 main() {
     echo "$*" | grep -Eqvw -- "-h|--help|help" || { echo "$USAGE"; exit; }
     test $# -gt 0 || set -- helm/*/Chart.yaml
+    HASH=$(get_hash)
     VERSION=$(get_version)
     STATUS=0
     for CHART in "$@"; do
         check_chart "${CHART/\/Chart.yaml/}" || STATUS=1
     done
-    exit "$STATUS"
+    test "$STATUS" = 0 || die "Helm check failed"
+    if [ "$(get_hash)" != "$HASH" ]; then
+        log "Helm files updated"
+        exit 1
+    fi
 }
 
 
+get_hash() { find helm -type f -exec md5sum {} \; | sort -k2 | md5sum; }
 get_version() {
     grep -E "^version = " pyproject.toml 2>/dev/null | sed -E 's/.*"(.*)"/\1/' ||
     cat VERSION 2>/dev/null ||
     git describe --abbrev=0 --tags ||
     echo 0.1.0
 }
-
 
 check_chart() {(
     log "Checking chart $1..."
@@ -50,7 +55,6 @@ check_chart() {(
         done
     fi
 )}
-
 
 validate_schema() {
     log "Running kubeval (templating ${*:-without values})"
