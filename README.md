@@ -5,7 +5,7 @@ Alpine-based utility image for helm linting and validation.
 ## Usage
 
 ```bash
-docker run -itv $(pwd):/src --rm flywheel/helm helm lint helm/*
+docker run -itv $(pwd):/src --rm flywheel/helm
 ```
 
 ## Publishing
