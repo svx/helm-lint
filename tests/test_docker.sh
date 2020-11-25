@@ -34,10 +34,12 @@ host_main() {
 
 cont_main() {
     log "Running $0 $1..."
-    for BIN in bash curl helm helm-docs kubeval; do
+    for BIN in bash curl git helm helm-docs kubeval; do
         quiet command -v "$BIN" || die "Command not found: $BIN"
     done
     test "$(id -u):$(id -g)" = 0:0 || die "Not running as root"
+    test -n "${KUBERNETES:-}" || die "KUBERNETES envvar not set"
+    quiet ls /etc/kubeval/*/ || die "K8S schema not found"
 }
 
 
