@@ -42,8 +42,9 @@ check_chart() {(
     helm lint --strict .
     log "Running helm dependency update"
     helm dependency list | grep -iqv missing || helm dependency update .
-    log "Updating chart version"
-    sed -Ei "s/version:.*/version:\ '$VERSION'/" Chart.yaml
+    log "Updating chart version and image tag to $VERSION"
+    sed -Ei "s/version:.*/version: '$VERSION'/" Chart.yaml
+    sed -Ei "s/tag:.*/tag: '$VERSION'/" values.yaml
     log "Running helm-docs"
     helm-docs --sort-values-order file
     TEST_VALUES=$(find . -name '*.yaml' | sed -E "s|^\.||" | grep -E "^test")
