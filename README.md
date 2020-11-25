@@ -1,26 +1,17 @@
-# Docker image template
+# flywheel/helm
 
-Description, intent, variants (if any).
+Alpine-based utility image for helm linting and validation.
 
 ## Usage
 
-Base images should provide examples on how they can be extended:
-
-```plaintext
-FROM flywheel/image:tag
-...
-```
-
-Utility images should include examples of running them instead:
-
 ```bash
-docker run -it --rm flywheel/image ...
+docker run -itv $(pwd):/src --rm flywheel/helm
 ```
 
 ## Publishing
 
 Images are published on every successful CI build to
-[dockerhub](https://hub.docker.com/repository/docker/flywheel/image/tags?page=1&ordering=last_updated).
+[dockerhub](https://hub.docker.com/repository/docker/flywheel/helm/tags?page=1&ordering=last_updated).
 
 ## Development
 
@@ -31,7 +22,5 @@ pre-commit install
 ```
 
 ## License
-
-Include the following license badge only for open source projects:
 
 [![MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
