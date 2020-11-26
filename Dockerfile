@@ -26,7 +26,7 @@ RUN curl -fLSs https://get.helm.sh/helm-v$HELM-linux-amd64.tar.gz | tar xz linux
     mv linux-amd64/helm .; \
     rm -rf linux-amd64
 
-ENV HELM_DOCS=19.0614
+ENV HELM_DOCS=1.4.0
 RUN curl -fLSs https://github.com/norwoodj/helm-docs/releases/download/v$HELM_DOCS/helm-docs_${HELM_DOCS}_Linux_x86_64.tar.gz \
         | tar xz helm-docs
 
