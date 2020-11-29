@@ -47,7 +47,7 @@ check_chart() {(
     sed -Ei "s/tag:.*/tag: '$VERSION'/" values.yaml
     log "Running helm-docs"
     helm-docs --sort-values-order file
-    TEST_VALUES=$(find . -name '*.yaml' | sed -E "s|^\.||" | grep -E "^test")
+    TEST_VALUES=$(find . -name '*.yaml' | sed -E "s|^\./||" | grep -E "^test")
     if [ -z "$TEST_VALUES" ]; then
         validate_schema
     else
