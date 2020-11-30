@@ -38,29 +38,23 @@ get_version() {
 check_chart() {(
     log "Checking chart $1..."
     cd "$1" || die "Cannot cd into $1"
-    log "Running helm lint"
-    helm lint --strict .
-    log "Running helm dependency update"
-    helm dependency list | grep -iqv missing || helm dependency update .
     log "Updating chart version and image tag to $VERSION"
     sed -Ei "s/version:.*/version: '$VERSION'/" Chart.yaml
     sed -Ei "s/tag:.*/tag: '$VERSION'/" values.yaml
+    log "Running helm dependency update"
+    helm dependency list | grep -iqv missing || helm dependency update .
     log "Running helm-docs"
     helm-docs --sort-values-order file
     TEST_VALUES=$(find . -name '*.yaml' | sed -E "s|^\./||" | grep -E "^test")
-    if [ -z "$TEST_VALUES" ]; then
-        validate_schema
-    else
-        for VALUES in $TEST_VALUES; do
-            validate_schema --values "$VALUES"
-        done
-    fi
+    test -n "$TEST_VALUES" || echo "{}" >"${TEST_VALUES:=/tmp/empty.yaml}"
+    for VALUES in $TEST_VALUES; do
+        log "Running helm lint (--values $VALUES)"
+        helm lint . --strict --values "$VALUES"
+        log "Running kubeval (--values $VALUES)"
+        helm template flywheel . --values "$VALUES" \
+            | kubeval -v "$KUBERNETES" --strict --force-color
+    done
 )}
-
-validate_schema() {
-    log "Running kubeval (templating ${*:-without values})"
-    helm template flywheel . "$@" | kubeval -v "$KUBERNETES" --strict --force-color
-}
 
 
 # logging and formatting utilities
