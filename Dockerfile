@@ -24,7 +24,8 @@ WORKDIR /usr/local/bin
 ENV HELM=3.4.1
 RUN curl -fLSs https://get.helm.sh/helm-v$HELM-linux-amd64.tar.gz | tar xz linux-amd64/helm; \
     mv linux-amd64/helm .; \
-    rm -rf linux-amd64
+    rm -rf linux-amd64; \
+    helm plugin install https://github.com/chartmuseum/helm-push.git
 
 ENV HELM_DOCS=1.4.0
 RUN curl -fLSs https://github.com/norwoodj/helm-docs/releases/download/v$HELM_DOCS/helm-docs_${HELM_DOCS}_Linux_x86_64.tar.gz \
