@@ -6,7 +6,8 @@ USAGE="Usage:
 
 Check helm chart(s) - run helm lint, helm dep up, helm-docs and kubeval.
 Looks at all helm/ subdirs with a Chart.yaml file if no args are specified.
-Files matching test*.yaml and test*/*.yaml will be used as values files.
+Files matching test*.yaml and test*/*.yaml will be used as values files if
+present.
 "
 
 
@@ -15,6 +16,7 @@ main() {
     test $# -gt 0 || set -- helm/*/Chart.yaml
     HASH=$(get_hash)
     VERSION=$(get_version)
+    RENDER_DIR=$(pwd)/helm/render
     STATUS=0
     for CHART in "$@"; do
         check_chart "${CHART/\/Chart.yaml/}" || STATUS=1
@@ -27,12 +29,17 @@ main() {
 }
 
 
-get_hash() { find helm -type f -exec md5sum {} \; | sort -k2 | md5sum; }
+get_hash() {
+    find helm -type f -not -path "helm/render/*" -exec md5sum {} \; \
+        | sort -k2 \
+        | md5sum
+}
+
 get_version() {
     grep -E "^version = " pyproject.toml 2>/dev/null | sed -E 's/.*"(.*)"/\1/' ||
-    cat VERSION 2>/dev/null ||
-    git describe --abbrev=0 --tags ||
-    echo 0.1.0
+        cat VERSION 2>/dev/null ||
+        git describe --abbrev=0 --tags ||
+        echo 0.1.0
 }
 
 check_chart() {(
@@ -47,12 +54,16 @@ check_chart() {(
     helm-docs --sort-values-order file
     TEST_VALUES=$(find . -name '*.yaml' | sed -E "s|^\./||" | grep -E "^test")
     test -n "$TEST_VALUES" || echo "{}" >"${TEST_VALUES:=/tmp/empty.yaml}"
+    mkdir -p "$RENDER_DIR"
     for VALUES in $TEST_VALUES; do
-        log "Running helm lint (--values $VALUES)"
+        log "Using --values $VALUES"
+        log "Running helm lint"
         helm lint . --strict --values "$VALUES"
-        log "Running kubeval (--values $VALUES)"
-        helm template flywheel . --values "$VALUES" \
-            | kubeval -v "$KUBERNETES" --strict --force-color
+        log "Running helm template"
+        RENDERED_FILE="$RENDER_DIR/$(basename $VALUES)"
+        helm template flywheel . --values "$VALUES" >"$RENDERED_FILE"
+        log "Running kubeval"
+        kubeval -v "$KUBERNETES" --strict --force-color "$RENDERED_FILE"
     done
 )}
 
