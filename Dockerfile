@@ -1,6 +1,6 @@
 ARG KUBERNETES=1.15.7
 
-FROM python:3.9.0-alpine3.12 as KUBEVAL_SCHEMA
+FROM python:3.9.1-alpine3.12 AS KUBEVAL_SCHEMA
 ARG KUBERNETES
 RUN set -eux; \
     pip install openapi2jsonschema==0.9.1; \
@@ -9,19 +9,19 @@ RUN set -eux; \
         --output /etc/kubeval/v$KUBERNETES-standalone-strict \
         https://github.com/kubernetes/kubernetes/raw/v$KUBERNETES/api/openapi-spec/swagger.json
 
-FROM alpine:3.12.1
+FROM alpine:3.12.3
 ARG KUBERNETES
 ENV KUBERNETES=$KUBERNETES
 RUN apk add --no-cache \
         bash=5.0.17-r0 \
-        curl=7.69.1-r1 \
+        curl=7.69.1-r3 \
         git=2.26.2-r0
 
 ENV PS1='\u@\h:\w\$ '
 SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 
 WORKDIR /usr/local/bin
-ENV HELM=3.4.1
+ENV HELM=3.4.2
 RUN curl -fLSs https://get.helm.sh/helm-v$HELM-linux-amd64.tar.gz | tar xz linux-amd64/helm; \
     mv linux-amd64/helm .; \
     rm -rf linux-amd64; \
