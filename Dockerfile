@@ -3,7 +3,7 @@ ARG KUBERNETES=1.15.7
 FROM python:3.9.1-alpine3.12 AS KUBEVAL_SCHEMA
 ARG KUBERNETES
 RUN set -eux; \
-    pip install openapi2jsonschema==0.9.1; \
+    pip install --no-cache-dir openapi2jsonschema==0.9.1; \
     mkdir -p /etc/kubeval; \
     openapi2jsonschema --expanded --kubernetes --stand-alone --strict \
         --output /etc/kubeval/v$KUBERNETES-standalone-strict \
@@ -21,7 +21,7 @@ ENV PS1='\u@\h:\w\$ '
 SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 
 WORKDIR /usr/local/bin
-ENV HELM=3.5.0
+ENV HELM=3.5.2
 RUN curl -fLSs https://get.helm.sh/helm-v$HELM-linux-amd64.tar.gz | tar xz linux-amd64/helm; \
     mv linux-amd64/helm .; \
     rm -rf linux-amd64; \
