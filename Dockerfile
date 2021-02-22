@@ -1,6 +1,6 @@
 ARG KUBERNETES=1.15.7
 
-FROM python:3.9.1-alpine3.12 AS KUBEVAL_SCHEMA
+FROM python:3.9.2-alpine3.12 AS KUBEVAL_SCHEMA
 ARG KUBERNETES
 RUN set -eux; \
     pip install --no-cache-dir openapi2jsonschema==0.9.1; \
