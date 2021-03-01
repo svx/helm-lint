@@ -4,9 +4,10 @@ Alpine-based utility image for helm linting and validation.
 
 ## Usage
 
-```bash
-docker run -itv $(pwd):/src --rm flywheel/helm
-```
+This image is intended to be used within the following:
+
+- `helm-check` [pre-commit-hook](https://gitlab.com/flywheel-io/tools/etc/pre-commit-hooks)
+- `test:helm-check` [ci-template](https://gitlab.com/flywheel-io/tools/etc/ci-templates)
 
 ## Included actions
 
@@ -17,18 +18,32 @@ docker run -itv $(pwd):/src --rm flywheel/helm
 - Run [`helm lint`](https://helm.sh/docs/helm/helm_lint/)
 - Run [`kubeval`](https://www.kubeval.com/)
 
-## Publishing
-
-Images are published on every successful CI build to
-[dockerhub](https://hub.docker.com/repository/docker/flywheel/helm/tags?page=1&ordering=last_updated).
-
 ## Development
 
-Enable [pre-commit](https://pre-commit.com) on the project:
+Install the `pre-commit` hooks before committing changes:
 
 ```bash
 pre-commit install
 ```
+
+To build the image locally:
+
+```bash
+docker build -t flywheel/helm .
+```
+
+## Troubleshooting
+
+To debug the helm validation on any project folder, run:
+
+```bash
+docker run --rm -itv $(pwd):/src -e TRACE=1 flywheel/helm
+```
+
+## Publishing
+
+Images are published on every successful CI build to
+[dockerhub](https://hub.docker.com/repository/docker/flywheel/helm/tags?page=1&ordering=last_updated).
 
 ## License
 
