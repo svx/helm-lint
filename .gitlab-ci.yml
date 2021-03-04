@@ -2,11 +2,3 @@ include:
   - project: flywheel-io/tools/etc/ci-templates
     file: img.yml
     ref: master
-
-update:docker:
-  extends: .update:docker
-  variables:
-    UPDATE_DOCKER_SH: |-
-      replace HELM=.* HELM=$(get_version git helm/helm)
-      replace HELM_DOCS=.* HELM_DOCS=$(get_version git norwoodj/helm-docs "^v")
-      replace KUBEVAL=.* KUBEVAL=$(get_version git instrumenta/kubeval)
