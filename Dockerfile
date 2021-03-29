@@ -15,13 +15,13 @@ ENV KUBERNETES=$KUBERNETES
 RUN apk add --no-cache \
         bash=5.0.17-r0 \
         curl=7.69.1-r3 \
-        git=2.26.2-r0
+        git=2.26.3-r0
 
 ENV PS1='\u@\h:\w\$ '
 SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 
 WORKDIR /usr/local/bin
-ENV HELM=3.5.2
+ENV HELM=3.5.3
 RUN curl -fLSs https://get.helm.sh/helm-v$HELM-linux-amd64.tar.gz | tar xz linux-amd64/helm; \
     mv linux-amd64/helm .; \
     rm -rf linux-amd64; \
