@@ -19,7 +19,7 @@ main() {
 
 
 host_main() {
-    test $# -gt 0 || set -- flywheel/template
+    test $# -gt 0 || set -- flywheel/helm
     STATUS=0
     for IMG in "$@"; do
         docker run --rm \
@@ -34,7 +34,7 @@ host_main() {
 
 cont_main() {
     log "Running $0 $1..."
-    for BIN in bash curl git helm helm-docs kubeval; do
+    for BIN in bash curl git helm helm-docs kubeval yamllint; do
         quiet command -v "$BIN" || die "Command not found: $BIN"
     done
     test "$(id -u):$(id -g)" = 0:0 || die "Not running as root"

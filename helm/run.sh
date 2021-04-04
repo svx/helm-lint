@@ -31,8 +31,7 @@ main() {
 
 get_hash() {
     find helm -type f -not -path "helm/render/*" -exec md5sum {} \; \
-        | sort -k2 \
-        | md5sum
+        | sort -k2 | md5sum
 }
 
 get_version() {
@@ -64,6 +63,7 @@ check_chart() {(
         helm template flywheel . --values "$VALUES" >"$RENDERED_FILE"
         log "Running kubeval"
         kubeval -v "$KUBERNETES" --strict --force-color "$RENDERED_FILE"
+        yamllint -f colored "$RENDERED_FILE"
     done
 )}
 

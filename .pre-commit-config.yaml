@@ -1,6 +1,6 @@
 repos:
   - repo: https://gitlab.com/flywheel-io/tools/etc/pre-commit-hooks
-    rev: 5307acc41a140fe928ce48604a915dbcc3db322c
+    rev: master
     hooks:
       - id: flywheel-lint
       - id: docker-update
