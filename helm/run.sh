@@ -63,7 +63,7 @@ check_chart() {(
         helm template flywheel . --values "$VALUES" >"$RENDERED_FILE"
         log "Running kubeval"
         kubeval -v "$KUBERNETES" --strict --force-color "$RENDERED_FILE"
-        yamllint -f colored "$RENDERED_FILE"
+        yamllint -c /helm/.yamllint.yml -f colored "$RENDERED_FILE"
     done
 )}
 
