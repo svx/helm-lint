@@ -1,4 +1,4 @@
 include:
   - project: flywheel-io/tools/etc/ci-templates
     file: img.yml
-    ref: master
+    ref: 0d7f059d
