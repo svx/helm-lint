@@ -28,7 +28,7 @@ RUN curl -fLSs https://github.com/instrumenta/kubeval/releases/download/v$KUBEVA
 ENV KUBERNETES=1.15.7
 RUN pip install --no-cache-dir \
         openapi2jsonschema==0.9.1 \
-        yamllint==1.26.0 \
+        yamllint==1.26.1 \
     ; \
     mkdir -p $KUBEVAL_SCHEMA_DIR; \
     openapi2jsonschema --expanded --kubernetes --stand-alone --strict \

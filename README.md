@@ -1,13 +1,17 @@
 # flywheel/helm
 
-Alpine-based utility image for helm linting and validation.
+Alpine-based utility image for Helm chart linting and validation.
 
 ## Usage
 
-This image is intended to be used within the following:
+This image is used within the `test:helm-check` pre-commit hook and CI job in
+[`tools/etc/qa-ci`](https://gitlab.com/flywheel-io/tools/etc/qa-ci).
 
-- `helm-check` [pre-commit-hook](https://gitlab.com/flywheel-io/tools/etc/pre-commit-hooks)
-- `test:helm-check` [ci-template](https://gitlab.com/flywheel-io/tools/etc/ci-templates)
+To run the image directly on any project folder in debug mode:
+
+```bash
+docker run --rm -itv $(pwd):/src -e TRACE=1 flywheel/helm
+```
 
 ## Included actions
 
@@ -17,6 +21,7 @@ This image is intended to be used within the following:
 - Run `helm-docs` to get auto-generated chart docs in `helm/README.md`
 - Run [`helm lint`](https://helm.sh/docs/helm/helm_lint/)
 - Run [`kubeval`](https://www.kubeval.com/)
+- Run [`yamllint`](https://www.kubeval.com/) on the rendered tests
 
 ## Development
 
@@ -30,14 +35,6 @@ To build the image locally:
 
 ```bash
 docker build -t flywheel/helm .
-```
-
-## Troubleshooting
-
-To debug the helm validation on any project folder, run:
-
-```bash
-docker run --rm -itv $(pwd):/src -e TRACE=1 flywheel/helm
 ```
 
 ## Publishing

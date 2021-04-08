@@ -1,7 +1,7 @@
 repos:
-  - repo: https://gitlab.com/flywheel-io/tools/etc/pre-commit-hooks
+  - repo: git@gitlab.com:flywheel-io/tools/etc/qa-ci
     rev: master
     hooks:
-      - id: flywheel-lint
-      - id: docker-update
-      - id: docker-test
+      - id: test:flywheel-lint
+      - id: update:repo:docker
+      - id: publish:docker:test
