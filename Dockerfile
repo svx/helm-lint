@@ -7,6 +7,7 @@ RUN apk add --no-cache \
 RUN pip install --no-cache-dir \
         openapi2jsonschema==0.9.1 \
         yamllint==1.26.1
+
 SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 ENV PS1='\u@\h:\w\$ '
 

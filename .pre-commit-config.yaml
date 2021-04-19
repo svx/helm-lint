@@ -3,5 +3,5 @@ repos:
     rev: master
     hooks:
       - id: test:flywheel-lint
-      - id: update:repo:docker
+      - id: update:repo
       - id: publish:docker:test
