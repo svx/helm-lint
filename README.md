@@ -18,7 +18,8 @@ docker run --rm -itv $(pwd):/src -e TRACE=1 flywheel/helm
 - Update the helm chart version to that of the poetry package or git repo
 - Update the helm image tag to that same version
 - Run `helm dep up` to make sure the dependencies are available and up-to-date
-- Run `helm-docs` to get auto-generated chart docs in `helm/README.md`
+- Run [`helm-docs`](https://github.com/norwoodj/helm-docs) to get auto-generated
+chart docs in `helm/README.md`
 - Run [`helm lint`](https://helm.sh/docs/helm/helm_lint/)
 - Run [`kubeval`](https://www.kubeval.com/)
 - Run [`yamllint`](https://www.kubeval.com/) on the rendered tests
