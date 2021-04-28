@@ -12,7 +12,7 @@ SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 ENV PS1='\u@\h:\w\$ '
 
 WORKDIR /usr/local/bin
-ENV HELM=3.5.4
+ENV HELM=3.3.4
 RUN curl -fLSs https://get.helm.sh/helm-v$HELM-linux-amd64.tar.gz | tar xz linux-amd64/helm; \
     mv linux-amd64/helm .; \
     rm -rf linux-amd64; \
