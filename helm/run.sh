@@ -48,7 +48,7 @@ check_chart() {
     helm dependency list | grep -iqv missing || helm dependency update .
     log "Running helm-docs"
     helm-docs --sort-values-order file
-    TEST_VALUES=$(find . -name '*.yaml' | sed -E "s|^\./||" | grep -E "^test")
+    TEST_VALUES=$(find . -name '*.yaml' | sed -E "s|^\./||" | grep -E "^test" || true)
     test -n "$TEST_VALUES" || echo "{}" >"${TEST_VALUES:=/tmp/empty.yaml}"
     mkdir -p "$REPO/helm/render"
     for VALUES in $TEST_VALUES; do
