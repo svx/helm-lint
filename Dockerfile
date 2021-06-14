@@ -2,7 +2,7 @@ FROM python:3.8.10-alpine3.13
 
 RUN apk add --no-cache \
         bash=5.1.0-r0 \
-        curl=7.77.0-r0 \
+        curl=7.77.0-r1 \
         git=2.30.2-r0
 RUN pip install --no-cache-dir \
         openapi2jsonschema==0.9.1 \
