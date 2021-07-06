@@ -1,5 +1,9 @@
 # flywheel/helm
 
+**NOTE:** This image is deprecated and pending removal.
+Please use [tools/img/qa-ci](https://gitlab.com/flywheel-io/tools/img/qa-ci)
+as a drop-in replacement.
+
 Alpine-based utility image for Helm chart linting and validation.
 
 ## Usage
